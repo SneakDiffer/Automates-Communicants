@@ -4,8 +4,9 @@ public class Sortie {
 	private Etat etat;
 	private HashSet<Output> outputs;
 	
-	public Sortie(){
-		
+	public Sortie(Etat e){
+		this.etat = e;
+		outputs = new HashSet<Output>();
 	}
 	
 	//-------------------------SET------------------------
@@ -25,4 +26,8 @@ public class Sortie {
 		this.outputs = output;
 	}
 	
+	public void addOutput(Output o){
+		outputs.add(o);
+		o.addSortie(this);
+	}
 }

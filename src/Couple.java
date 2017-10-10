@@ -2,8 +2,9 @@ import java.util.HashSet;
 
 public class Couple extends Composant {
 	private HashSet<Composant> composants;
-	protected Couple (){
-		
+	protected Couple (String name){
+		super(name);
+		composants = new HashSet<Composant>();
 	}
 	
 	//-------------------------GET------------------------
@@ -16,6 +17,9 @@ public class Couple extends Composant {
 		this.composants = composants;
 	}
 	
-
+	public void addComposant(Composant c){
+		composants.add(c);
+		c.setComposantSupp(this);
+	}
 	
 }

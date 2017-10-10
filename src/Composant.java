@@ -1,37 +1,41 @@
 import java.util.HashSet;
 
 public abstract class Composant {
-	private HashSet<Port> inputs;
-	private HashSet<Port> outputs;
+	private HashSet<Input> inputs;
+	private HashSet<Output> outputs;
 	private String name;
+	private Couple composantSupp; //Composant N+1  
+	
+	protected Composant (String name){
+		inputs = new HashSet<Input>();
+		outputs = new HashSet<Output>();
+		this.name = name;
+		composantSupp = null;
+	}
 	
 	//-------------------------GET------------------------
-	public HashSet<Port> getInput() {
+	public HashSet<Input> getInput() {
 			return inputs;
 	}
 		
-	public HashSet<Port> getOutput() {
+	public HashSet<Output> getOutput() {
 			return outputs;
-	}
-	
-	public void AddPort(Port p){
-			if(p instanceof Input){
-				this.inputs.add(p);
-			}else{
-				this.outputs.add(p);
-			}
 	}
 
 	public String getName() {
 			return name;
 	}
 		
+	public Couple getComposantSupp() {
+		return composantSupp;
+	}
+
 	//-------------------------SET------------------------
-	public void setInput(HashSet<Port> input) {
+	public void setInput(HashSet<Input> input) {
 		this.inputs = input;
 	}
 
-	public void setOutput(HashSet<Port> output) {
+	public void setOutput(HashSet<Output> output) {
 		this.outputs = output;
 	}
 	
@@ -39,7 +43,17 @@ public abstract class Composant {
 		this.name = name;
 	}
 	
+	public void setComposantSupp(Couple composantSupp) {
+		this.composantSupp = composantSupp;
+	}
 	
-
+	public void addPort(Port p){
+		if (p instanceof Input){
+			inputs.add((Input)p);
+		}else{
+			outputs.add((Output)p);
+		}
+		p.setComposant(this);
+	}
 
 }

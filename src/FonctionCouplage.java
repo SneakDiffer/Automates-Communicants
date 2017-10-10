@@ -3,8 +3,9 @@ public class FonctionCouplage {
 	private Port emetteur;
 	private Port recepteur;
 	
-	public FonctionCouplage(){
-		
+	public FonctionCouplage(Port e, Port r){
+		emetteur = e;
+		recepteur = r;
 	}
 	
 	//-------------------------GET------------------------
@@ -23,7 +24,5 @@ public class FonctionCouplage {
 	public void setRecepteur(Port recepteur) {
 		this.recepteur = recepteur;
 	}
-
-
 	
 }

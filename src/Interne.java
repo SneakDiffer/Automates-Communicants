@@ -1,6 +1,6 @@
 
 public class Interne extends Transition{
-	public Interne(){
-		
+	public Interne(Etat i, Etat e){
+		super(i,e);
 	}
 }

@@ -3,8 +3,9 @@ import java.util.HashSet;
 public class Atomique extends Composant {
 	private HashSet<Etat> etats;
 	
-	protected Atomique (){
-		
+	protected Atomique (String name){
+		super(name);
+		etats = new HashSet<Etat>();
 	}
 
 	//-------------------------GET------------------------
@@ -17,6 +18,8 @@ public class Atomique extends Composant {
 		this.etats = etats;
 	}
 	
-
+	public void addEtat(Etat e){
+		etats.add(e);
+	}
 
 }
