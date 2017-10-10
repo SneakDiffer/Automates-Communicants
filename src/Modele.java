@@ -6,4 +6,16 @@ public class Modele {
 	public Modele(){
 		
 	}
+	//-------------------------GET------------------------
+	public HashSet<Composant> getComposants() {
+		return composants;
+	}
+	
+	//-------------------------SET------------------------
+	public void setComposants(HashSet<Composant> composants) {
+		this.composants = composants;
+	}
+	
+
+	
 }

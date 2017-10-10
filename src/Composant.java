@@ -1,34 +1,45 @@
 import java.util.HashSet;
 
 public abstract class Composant {
-	private Modele modele;
-	private HashSet<Port> input;
-	private HashSet<Port> output;
-
-	//-------------------------SET------------------------
-	public void setModele(Modele modele) {
-		this.modele = modele;
+	private HashSet<Port> inputs;
+	private HashSet<Port> outputs;
+	private String name;
+	
+	//-------------------------GET------------------------
+	public HashSet<Port> getInput() {
+			return inputs;
+	}
+		
+	public HashSet<Port> getOutput() {
+			return outputs;
 	}
 	
+	public void AddPort(Port p){
+			if(p instanceof Input){
+				this.inputs.add(p);
+			}else{
+				this.outputs.add(p);
+			}
+	}
+
+	public String getName() {
+			return name;
+	}
+		
+	//-------------------------SET------------------------
 	public void setInput(HashSet<Port> input) {
-		this.input = input;
+		this.inputs = input;
 	}
 
 	public void setOutput(HashSet<Port> output) {
-		this.output = output;
+		this.outputs = output;
 	}
 	
-	//-------------------------GET------------------------
-	public Modele getModele() {
-		return modele;
+	public void setName(String name) {
+		this.name = name;
 	}
 	
-	public HashSet<Port> getInput() {
-		return input;
-	}
 	
-	public HashSet<Port> getOutput() {
-		return output;
-	}
-	
+
+
 }

@@ -6,4 +6,17 @@ public class Atomique extends Composant {
 	protected Atomique (){
 		
 	}
+
+	//-------------------------GET------------------------
+	public HashSet<Etat> getEtats() {
+		return etats;
+	}
+	
+	//-------------------------SET------------------------
+	public void setEtats(HashSet<Etat> etats) {
+		this.etats = etats;
+	}
+	
+
+
 }
