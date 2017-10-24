@@ -2,13 +2,13 @@ import java.util.HashSet;
 
 public abstract class Port {
 	private String name;
-	private Boolean value;
+	private Object value;
 	private HashSet<FonctionCouplage> fonctionsCouplage;
 	private Composant composant;
 	
 	protected Port(String name){
 		this.name = name;
-		value = false;
+		value = null;
 		fonctionsCouplage = new HashSet<FonctionCouplage>();
 		composant = null;
 	}
@@ -33,7 +33,7 @@ public abstract class Port {
 		this.name = name;
 	}
 	
-	public void setValue(Boolean value) {
+	public void setValue(Object value) {
 		this.value = value;
 	}
 
@@ -48,5 +48,4 @@ public abstract class Port {
 	public void addFonctionCouplage(FonctionCouplage fc){
 		fonctionsCouplage.add(fc);
 	}
-
 }

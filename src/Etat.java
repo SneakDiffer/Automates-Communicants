@@ -14,7 +14,7 @@ public class Etat {
 		transitions = new HashSet<Transition>();
 		this.atomique = null;
 	}
-	
+
 	//-------------------------GET------------------------
 	public float getTa() {
 		return ta;
@@ -28,7 +28,7 @@ public class Etat {
 		return transitions;
 	}
 	
-	public Sortie getSorties() {
+	public Sortie getSortie() {
 		return sortie;
 	}
 	
@@ -48,11 +48,11 @@ public class Etat {
 		this.transitions = transitions;
 	}
 
-	public void setSorties(Sortie sortie) {
+	public void setSortie(Sortie sortie) {
 		this.sortie = sortie;
 		sortie.setEtat(this);
 		//Une fonction de sortie est connectée à tous les ports de sortie de l'atomique
-		sortie.setOutput(atomique.getOutput());
+		sortie.setOutput(atomique.getOutputs());
 	}
 	
 	public void addTransition(Transition t){
@@ -71,11 +71,11 @@ public class Etat {
 		if(t instanceof Externe){
 			if(this == t.getEtatOrigine()){
 				//Les inputs de l'atomique sont connectés à l'état d'origine de la transition
-				((Externe) t).setInput(atomique.getInput());
+				((Externe) t).setInput(atomique.getInputs());
 				
 			}else{
 				//Les inputs de l'atomique sont connectés à l'état d'origine de la transition
-				((Externe) t).setInput(t.getEtatOrigine().atomique.getInput());
+				((Externe) t).setInput(t.getEtatOrigine().atomique.getInputs());
 			}
 		}
 	}
@@ -86,5 +86,16 @@ public class Etat {
 	
 	public void removeTransition(Transition t){
 		transitions.remove(t);
+	}
+
+	public int hashCode() {
+	    return ID;
+	}
+
+	public boolean equals(Object obj){
+		if(this.ID == ((Etat) obj).getID()){
+			return true;
+		}
+		return false;
 	}
 }

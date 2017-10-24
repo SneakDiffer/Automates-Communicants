@@ -13,13 +13,28 @@ public abstract class Composant {
 		this.name = name;
 		composantSupp = null;
 	}
+	//-------------------------PRINT------------------------
 	
+	public void printInputOutput(){
+		Iterator<Input> i = inputs.iterator();
+		while(i.hasNext()){
+			Input ip = i.next();
+			System.out.println(ip.getName());
+		}
+		
+		Iterator<Output> i2 = outputs.iterator();
+		while(i2.hasNext()){
+			Output ip = i2.next();
+			System.out.println(ip.getName());
+		}
+	}
+
 	//-------------------------GET------------------------
-	public HashSet<Input> getInput() {
+	public HashSet<Input> getInputs() {
 			return inputs;
 	}
 		
-	public HashSet<Output> getOutput() {
+	public HashSet<Output> getOutputs() {
 			return outputs;
 	}
 
@@ -30,7 +45,26 @@ public abstract class Composant {
 	public Couple getComposantSupp() {
 		return composantSupp;
 	}
-
+	
+	public Port getInputOutput(String name){
+		Iterator<Input> i = inputs.iterator();
+		while(i.hasNext()){
+			Input ip = i.next();
+			if(ip.equals(new Input(name))) {
+				return ip;
+			}
+		}
+		
+		Iterator<Output> i2 = outputs.iterator();
+		while(i2.hasNext()){
+			Output op = i2.next();
+			if(op.equals(new Output(name))) {
+				return op;
+			}
+		}
+		return null;
+	}
+	
 	//-------------------------SET------------------------
 	public void setInput(HashSet<Input> input) {
 		this.inputs = input;
@@ -51,36 +85,8 @@ public abstract class Composant {
 	public void addPort(Port p){
 		if (p instanceof Input){
 			inputs.add((Input)p);
-			//Chaque input est relié à l'ensemble des fonctions de transitions externe
-			if(this instanceof Atomique){
-				Iterator<Etat> i = ((Atomique) this).getEtats().iterator();
-				while(i.hasNext()){
-					Etat e = i.next();
-					if(e.getTransitions().size() != 0){
-						Iterator<Transition> it2 = e.getTransitions().iterator();
-						while(it2.hasNext()){
-							Transition t = it2.next();
-							if(t instanceof Externe){
-								((Input) p).addTransitionExterne((Externe) t);
-							}
-						}
-					}
-				}
-			}
 		}else{
 			outputs.add((Output)p);
-			//Chaque output est relié à l'ensemble des fonctions de sortie
-			if(this instanceof Atomique){
-				Output ot = (Output)p;
-				Atomique a = (Atomique)this;
-				Iterator<Etat> i = a.getEtats().iterator();
-				while(i.hasNext()){
-					Etat e = i.next();
-					if(e.getSorties() != null){
-						ot.addSortie(e.getSorties());
-					}
-				}
-			}
 		}
 		p.setComposant(this);
 	}
@@ -88,24 +94,8 @@ public abstract class Composant {
 	public void removePort(Port p){
 		if(p instanceof Output){
 			outputs.remove(p);
-			//Suppresion des fonctions de sortie associées à ce port
-			Iterator<Sortie> i = ((Output) p).getSorties().iterator();
-			while(i.hasNext()){
-				Sortie s = i.next();
-				HashSet<Output> so = s.getOutput();
-				so.remove(p);
-				s.setOutput(so);
-			}
 		}else{
 			inputs.remove(p);
-			//Suppresion des fonctions de transitions externe associées
-			Iterator<Externe> i = ((Input) p).getTransitionsExternes().iterator();
-			while(i.hasNext()){
-				Externe ext = i.next();
-				HashSet<Input> exti = ext.getInput();
-				exti.remove(p);
-				ext.setInput(exti);
-			}
 		}
 	}
 }

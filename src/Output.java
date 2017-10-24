@@ -25,4 +25,12 @@ public class Output extends Port{
 	public void removeSortie(Sortie s){
 		sorties.remove(s);
 	}
+	
+	public int hashCode(){
+		return this.getName().hashCode();
+	}
+	
+	public boolean equals(Object obj){
+		return this.getName().equals(((Output) obj).getName());
+	}
 }
