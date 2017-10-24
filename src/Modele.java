@@ -20,4 +20,10 @@ public class Modele {
 	public void addComposant(Composant c){
 		composants.add(c);
 	}
+	
+	public void removeComposant(Composant c){
+		composants.remove(c);
+	}
+	
+	
 }

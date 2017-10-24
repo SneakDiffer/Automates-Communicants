@@ -2,6 +2,7 @@ import java.util.HashSet;
 
 public class Couple extends Composant {
 	private HashSet<Composant> composants;
+	
 	protected Couple (String name){
 		super(name);
 		composants = new HashSet<Composant>();

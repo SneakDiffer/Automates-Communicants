@@ -21,4 +21,8 @@ public class Output extends Port{
 	public void addSortie(Sortie s){
 		sorties.add(s);
 	}
+	
+	public void removeSortie(Sortie s){
+		sorties.remove(s);
+	}
 }

@@ -21,4 +21,8 @@ public class Input extends Port {
 	public void addTransitionExterne(Externe t){
 		transitionsExternes.add(t);
 	}
+	
+	public void removeTransitionExterne(Externe t){
+		transitionsExternes.remove(t);
+	}
 }

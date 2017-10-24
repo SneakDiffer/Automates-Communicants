@@ -6,8 +6,6 @@ public abstract class Transition {
 	protected Transition(Etat i, Etat f){
 		etatInitial = i;
 		etatFinal = f;
-		etatInitial.addTransition(this);
-		etatFinal.addTransition(this);
 	}
 	
 	//-------------------------GET------------------------

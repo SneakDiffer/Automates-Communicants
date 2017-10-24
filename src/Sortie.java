@@ -1,4 +1,5 @@
 import java.util.HashSet;
+import java.util.Iterator;
 
 public class Sortie {
 	private Etat etat;
@@ -9,25 +10,28 @@ public class Sortie {
 		outputs = new HashSet<Output>();
 	}
 	
-	//-------------------------SET------------------------
-	public void setEtat(Etat etat) {
-		this.etat = etat;
-	}
+	//-------------------------GET------------------------
+
 	
 	public HashSet<Output> getOutput() {
 		return outputs;
 	}
-	//-------------------------GET------------------------
+	
 	public Etat getEtat() {
 		return etat;
 	}
-
-	public void setOutput(HashSet<Output> output) {
-		this.outputs = output;
+	//------------------------SET-------------------------
+	public void setEtat(Etat etat) {
+		this.etat = etat;
 	}
 	
-	public void addOutput(Output o){
-		outputs.add(o);
-		o.addSortie(this);
+	public void setOutput(HashSet<Output> output) {
+		this.outputs = output;
+		//Une fonction de sortie est connectée à tous les ports de sortie de l'atomique
+		Iterator<Output> i = output.iterator();
+		while(i.hasNext()){
+			Output o = i.next();
+			o.addSortie(this);
+		}
 	}
 }
