@@ -16,12 +16,13 @@ public abstract class Composant {
 	//-------------------------PRINT------------------------
 	
 	public void printInputOutput(){
+		System.out.println("Inputs : ");
 		Iterator<Input> i = inputs.iterator();
 		while(i.hasNext()){
 			Input ip = i.next();
 			System.out.println(ip.getName());
 		}
-		
+		System.out.println("Outputs : ");
 		Iterator<Output> i2 = outputs.iterator();
 		while(i2.hasNext()){
 			Output ip = i2.next();

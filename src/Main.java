@@ -24,12 +24,11 @@ public class Main {
 		Composant c;
 		//System.out.println();
 		
-		
 		do
 		{
 			System.out.println("1 Ajouter un composant atomique ");
 			System.out.println("2 Supprimer un composant ");
-			System.out.println("3 Lister les composants ");
+			System.out.println("3 Lister les composants du modèle");
 			System.out.println("4 Ajouter un port à un composant ");
 			System.out.println("5 Supprimer un port d'un composant ");
 			System.out.println("6 Lister les ports d'un composant ");
@@ -46,7 +45,9 @@ public class Main {
 			System.out.println("17 Créer une connexion entre deux composants ");
 			System.out.println("18 Afficher l'ensemble des composants appartenant à un composant couplé ");
 			System.out.println("19 Changer le nom d'un composant ");
-			System.out.println("19 Changer le nom d'un port ");
+			System.out.println("20 Changer le nom d'un port ");
+			System.out.println("21 Naviger dans un modèle couplé ");
+			System.out.println("22 Afficher les fonctions de couplages d'un composant couplé ");
 			System.out.println("69 Quitter ");
 			menu = IN.readLine();
 			switch(Integer.parseInt(menu)){
@@ -272,7 +273,7 @@ public class Main {
 								if(cr != null ){
 									System.out.println("Le nom du port recepteur ? ");
 									ligne = IN.readLine();
-									Port pr = ce.getInputOutput(ligne);
+									Port pr = cr.getInputOutput(ligne);
 									if(pr != null ){ 
 										((Couple)c).couplage(ce, pe, cr, pr);
 									}
@@ -312,6 +313,34 @@ public class Main {
 							ligne = IN.readLine();
 							p.setName(ligne);
 						}
+					}
+					break;
+				case 21:
+					System.out.println("Le nom du composant couplé ? ");
+					ligne = IN.readLine();
+					c = modele.getComposant(ligne);
+					if(c != null && c instanceof Couple){
+						boolean keep = true;
+						while(keep)
+						{
+							((Couple)c).printAllComposant();
+							System.out.println("Pour changer de niveau, entrez le nom du nouveau composant couplé, sinon entrez exit");
+							ligne = IN.readLine();
+							if(ligne.equals("exit")){
+								keep = false;
+							}else{
+								c = modele.getComposant(ligne);
+								if(c == null) { keep = false; }
+							}
+						}
+					}
+					break;
+				case 22:
+					System.out.println("Le nom du composant couplé ? ");
+					ligne = IN.readLine();
+					c = modele.getComposant(ligne);
+					if(c != null && c instanceof Couple){
+						((Couple)c).printAllConnexion();
 					}
 					break;
 				default:

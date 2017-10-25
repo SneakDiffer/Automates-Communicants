@@ -19,6 +19,15 @@ public class Couple extends Composant {
 			System.out.println(c.getName());
 		}
 	}
+	
+	public void printAllConnexion(){
+		Iterator<FonctionCouplage> i = connecteur.iterator();
+		while(i.hasNext()){
+			FonctionCouplage f = i.next();
+			System.out.println("Composant emetteur : " + f.getEmetteur().getComposant().getName() + " composant recepteur " + f.getRecepteur().getComposant().getName());
+			System.out.println("Port emetteur : " + f.getEmetteur().getName() + " port recetepteur " + f.getRecepteur().getName());
+		}
+	}
 	//-------------------------GET------------------------
 	public HashSet<Composant> getComposants() {
 		return composants;
@@ -58,6 +67,7 @@ public class Couple extends Composant {
 					c2.setComposantSupp(this);
 					composants.add(c1);
 					composants.add(c2);
+					connecteur.add(f);
 				}
 			}
 			if((c1 == this) && (c2.getComposantSupp() == this)){
@@ -68,6 +78,7 @@ public class Couple extends Composant {
 					pc2.setConnecteur(f);
 					c2.setComposantSupp(this);
 					composants.add(c2);
+					connecteur.add(f);
 				}
 			}
 			if((c1.getComposantSupp() == this) && (c2 == this)){
@@ -78,6 +89,7 @@ public class Couple extends Composant {
 					pc2.setConnecteur(f);
 					c1.setComposantSupp(this);
 					composants.add(c1);
+					connecteur.add(f);
 				}
 			}
 		}
@@ -90,7 +102,7 @@ public class Couple extends Composant {
 		while(i.hasNext()){
 			FonctionCouplage f = i.next();
 			if(f.getEmetteur().getComposant() == c || f.getRecepteur().getComposant() == c ){
-				connecteur.remove(c);
+				connecteur.remove(f);
 				f.getEmetteur().setConnecteur(null);
 				f.getRecepteur().setConnecteur(null);
 			}
