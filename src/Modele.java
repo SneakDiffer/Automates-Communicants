@@ -37,6 +37,10 @@ public class Modele {
 				if(c.equals(new Atomique(name))) {
 					return c;
 				}
+			}else{
+				if(c.equals(new Couple(name))) {
+					return c;
+				}
 			}
 		}
 		return null;
@@ -56,6 +60,18 @@ public class Modele {
 	
 	public void removeComposant(Composant c){
 		composants.remove(c);
+		//Si ce composant faisait parti d'un composant couplé, supprimer toutes les fonction de couplage du couplé utilisant ce composant
+		if(c.getComposantSupp() != null){
+			c.getComposantSupp().removeComposant(c);
+		}
+		//Si ce composant est un composant couplé, supprimer tout les composants du modèle appartenant à ce composant couplé
+		if(c instanceof Couple){
+			Iterator<Composant> i = composants.iterator();
+			while(i.hasNext()){
+				Composant ci = i.next();
+				if(ci.getComposantSupp() == c){ composants.remove(ci);}
+			}
+		}
 	}
 	
 }

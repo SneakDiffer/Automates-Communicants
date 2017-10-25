@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashSet;
 import java.util.Iterator;
 
 public class Main {
@@ -22,21 +23,30 @@ public class Main {
 		Modele modele = new Modele("bla");
 		Composant c;
 		//System.out.println();
+		
+		
 		do
 		{
 			System.out.println("1 Ajouter un composant atomique ");
-			System.out.println("2 Supprimer un composant atomique");
-			System.out.println("3 Lister les composants atomiques ");
-			System.out.println("4 Ajouter un port à un composant atomique ");
-			System.out.println("5 Supprimer un port d'un composant atomique ");
-			System.out.println("6 Lister les ports d'un composant atomique ");
+			System.out.println("2 Supprimer un composant ");
+			System.out.println("3 Lister les composants ");
+			System.out.println("4 Ajouter un port à un composant ");
+			System.out.println("5 Supprimer un port d'un composant ");
+			System.out.println("6 Lister les ports d'un composant ");
 			System.out.println("7 Ajouter un etat à un composant atomique ");
 			System.out.println("8 Supprimer un etat d'un composant atomique ");
 			System.out.println("9 Lister les états d'un composant atomique ");
 			System.out.println("10 Ajouter la transition de sortie à un état d'un composant ");
 			System.out.println("11 Ajouter une fonction de transition interne à un composant ");
-			System.out.println("12 Supprimer de/des transition(s) d'un composant ");
-			System.out.println("13 Afficher toutes les transitions d'un composant ");
+			System.out.println("12 Ajouter une fonction de transition externe à un composant ");
+			System.out.println("13 Supprimer de/des transition(s) d'un composant ");
+			System.out.println("14 Afficher toutes les transitions d'un composant ");
+			System.out.println("15 Ajouter un composant couplé ");
+			System.out.println("16 Ajouter un composant à un composant couplé ");
+			System.out.println("17 Créer une connexion entre deux composants ");
+			System.out.println("18 Afficher l'ensemble des composants appartenant à un composant couplé ");
+			System.out.println("19 Changer le nom d'un composant ");
+			System.out.println("19 Changer le nom d'un port ");
 			System.out.println("69 Quitter ");
 			menu = IN.readLine();
 			switch(Integer.parseInt(menu)){
@@ -77,7 +87,7 @@ public class Main {
 						System.out.println("Le nom du port ? ");
 						ligne = IN.readLine();
 						Port i = c.getInputOutput(ligne);
-						if(c != null ){ c.removePort(i); }
+						if(i != null ){ c.removePort(i); }
 					}
 					break;
 				case 6:
@@ -90,7 +100,7 @@ public class Main {
 					System.out.println("Le nom du composant ? ");
 					ligne = IN.readLine();
 					c = modele.getComposant(ligne);
-					if(c != null ) {
+					if(c != null && c instanceof Atomique) {
 						System.out.println("L'Id de l'état ?/Le ta de l'état ?");
 						ligne = IN.readLine();
 						String[] parts = ligne.split("/");
@@ -103,7 +113,7 @@ public class Main {
 					System.out.println("Le nom du composant ? ");
 					ligne = IN.readLine();
 					c = modele.getComposant(ligne);
-					if(c != null ) {
+					if(c != null && c instanceof Atomique) {
 						System.out.println("L'ID de l'état ? ");
 						ligne = IN.readLine();
 						Etat e = ((Atomique) c).getEtat(Integer.parseInt(ligne));
@@ -116,7 +126,7 @@ public class Main {
 					System.out.println("Le nom du composant ? ");
 					ligne = IN.readLine();
 					c = modele.getComposant(ligne);
-					if(c != null ) {
+					if(c != null && c instanceof Atomique) {
 						((Atomique)c).printEtats();
 					}
 					break;
@@ -125,7 +135,7 @@ public class Main {
 					System.out.println("Le nom du composant ? ");
 					ligne = IN.readLine();
 					c = modele.getComposant(ligne);
-					if(c != null ) {
+					if(c != null && c instanceof Atomique) {
 						System.out.println("L'ID de l'état ? ");
 						ligne = IN.readLine();
 						Etat e = ((Atomique) c).getEtat(Integer.parseInt(ligne));
@@ -138,7 +148,7 @@ public class Main {
 					System.out.println("Le nom du composant ? ");
 					ligne = IN.readLine();
 					c = modele.getComposant(ligne);
-					if(c != null ) {
+					if(c != null && c instanceof Atomique) {
 						System.out.println("L'ID de l'état initial? ");
 						ligne = IN.readLine();
 						Etat i = ((Atomique) c).getEtat(Integer.parseInt(ligne));
@@ -156,7 +166,25 @@ public class Main {
 					System.out.println("Le nom du composant ? ");
 					ligne = IN.readLine();
 					c = modele.getComposant(ligne);
-					if(c != null ) {
+					if(c != null && c instanceof Atomique) {
+						System.out.println("L'ID de l'état initial? ");
+						ligne = IN.readLine();
+						Etat i = ((Atomique) c).getEtat(Integer.parseInt(ligne));
+						if(i != null){
+							System.out.println("L'ID de l'état final? ");
+							ligne = IN.readLine();
+							Etat f = ((Atomique) c).getEtat(Integer.parseInt(ligne));
+							if(f != null){
+								i.addTransition(new Externe(i,f));
+							}
+						}
+					}
+					break;
+				case 13:
+					System.out.println("Le nom du composant ? ");
+					ligne = IN.readLine();
+					c = modele.getComposant(ligne);
+					if(c != null && c instanceof Atomique) {
 						//Affichage de toutes les transitions interne et externe
 						Iterator<Etat> ie = ((Atomique) c).getEtats().iterator();
 						while(ie.hasNext()){
@@ -170,7 +198,6 @@ public class Main {
 									ligne = IN.readLine();
 									if(Integer.parseInt(ligne) == 1){
 										((Atomique)c).removeTransitionInterne(t);
-										break;
 									}
 								}else{
 									System.out.println("Externe, etat initial : " +t.getEtatOrigine().getID() + " etat final " + t.getEtatFinal().getID());
@@ -178,19 +205,17 @@ public class Main {
 									ligne = IN.readLine();
 									if(Integer.parseInt(ligne) == 1){
 										((Atomique)c).removeTransitionExterne(t);
-										break;
 									}
 								}
-								
 							}
 						}
 					}
 					break;
-				case 13:
+				case 14:
 					System.out.println("Le nom du composant ? ");
 					ligne = IN.readLine();
 					c = modele.getComposant(ligne);
-					if(c != null ) {
+					if(c != null && c instanceof Atomique) {
 						//Affichage de toutes les transitions interne et externe
 						Iterator<Etat> ie = ((Atomique) c).getEtats().iterator();
 						while(ie.hasNext()){
@@ -208,10 +233,86 @@ public class Main {
 						}
 					}
 					break;
-				case 14:
-					
-					break;
 				case 15:
+					System.out.println("Le nom du composant ? ");
+					ligne = IN.readLine();
+					modele.addComposant(new Couple(ligne));
+					break;
+				case 16:
+					System.out.println("Le nom du composant couplé ? ");
+					ligne = IN.readLine();
+					c = modele.getComposant(ligne);
+					if(c != null  && c instanceof Couple)
+					{
+						System.out.println("Le nom du composant à ajouter? ");
+						ligne = IN.readLine();
+						Composant c1 = modele.getComposant(ligne);
+						if(c1 != null){
+							((Couple)c).addComposant(c1);
+						}
+					}
+					break;
+				case 17:
+					System.out.println("Le nom du composant couplé ? ");
+					ligne = IN.readLine();
+					c = modele.getComposant(ligne);
+					if(c != null && c instanceof Couple)
+					{
+						System.out.println("Le nom du composant emetteur ? ");
+						ligne = IN.readLine();
+						Composant ce = modele.getComposant(ligne);
+						if(ce != null ){
+							System.out.println("Le nom du port emetteur ? ");
+							ligne = IN.readLine();
+							Port pe = ce.getInputOutput(ligne);
+							if(pe != null ){ 
+								System.out.println("Le nom du composant recepteur ? ");
+								ligne = IN.readLine();
+								Composant cr = modele.getComposant(ligne);
+								if(cr != null ){
+									System.out.println("Le nom du port recepteur ? ");
+									ligne = IN.readLine();
+									Port pr = ce.getInputOutput(ligne);
+									if(pr != null ){ 
+										((Couple)c).couplage(ce, pe, cr, pr);
+									}
+								}
+							}
+						}
+					}
+					break;
+				case 18:
+					System.out.println("Le nom du composant couplé ? ");
+					ligne = IN.readLine();
+					c = modele.getComposant(ligne);
+					if(c != null && c instanceof Couple){
+						((Couple)c).printAllComposant();
+					}
+					break;
+				case 19:
+					System.out.println("Le nom du composant ? ");
+					ligne = IN.readLine();
+					c = modele.getComposant(ligne);
+					if(c != null){
+						System.out.println("Le nouveau nom ? ");
+						ligne = IN.readLine();
+						c.setName(ligne);
+					}
+					break;
+				case 20:
+					System.out.println("Le nom du composant ayant ce port ? ");
+					ligne = IN.readLine();
+					c = modele.getComposant(ligne);
+					if(c != null){
+						System.out.println("Le nom du port à modifier ? ");
+						ligne = IN.readLine();
+						Port p = c.getInputOutput(ligne);
+						if(p != null){
+							System.out.println("Le nouveau nom ? ");
+							ligne = IN.readLine();
+							p.setName(ligne);
+						}
+					}
 					break;
 				default:
 						break;

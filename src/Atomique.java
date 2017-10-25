@@ -169,7 +169,7 @@ public class Atomique extends Composant {
 				exti.remove(p);
 				ext.setInput(exti);
 			}
-		}
+		}		
 	}
 
 	

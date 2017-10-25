@@ -97,5 +97,8 @@ public abstract class Composant {
 		}else{
 			inputs.remove(p);
 		}
+		//Suppression des fonctions de couplage utilisant ce port
+		FonctionCouplage f = p.getConnecteur();
+		f.getCouple().removeConnecteur(f);
 	}
 }
